@@ -156,7 +156,8 @@ sudo ufw status
 Create a temporary SSL certificate:
 
 ```bash
-mkdir certs
+# Run these commands inside your_app folder
+mkdir certs 
 openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -keyout certs/key.pem -out certs/cert.pem
 ```
 
