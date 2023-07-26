@@ -1,1 +1,1 @@
-streamlit==1.24.1
+streamlit==1.25.0
