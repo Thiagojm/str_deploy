@@ -116,10 +116,10 @@ Description=Your App
 After=network.target
 
 [Service]
-ExecStart=/home/ubuntu/miniconda3/bin/streamlit run /home/ubuntu/your_app/main.py
-WorkingDirectory=/home/ubuntu/your_app
-User=ubuntu
-Group=ubuntu
+ExecStart=/home/newuser/miniconda3/bin/streamlit run /home/newuser/your_app/main.py
+WorkingDirectory=/home/newuser/your_app
+User=newuser
+Group=newuser
 Restart=always
 
 [Install]
@@ -184,8 +184,8 @@ server {
 server {
     listen 443 ssl;
     server_name your_linode_ip;
-    ssl_certificate /home/ubuntu/your_app/certs/cert.pem;
-    ssl_certificate_key /home/ubuntu/your_app/certs/key.pem;
+    ssl_certificate /home/newuser/your_app/certs/cert.pem;
+    ssl_certificate_key /home/newuser/your_app/certs/key.pem;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
     client_max_body_size 100M;
