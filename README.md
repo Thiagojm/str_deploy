@@ -39,15 +39,21 @@ sudo ufw --force enable
 sudo ufw status
 ```
 
-## Step 3: Install Miniconda
+## Step 3: Install uv Package Manager
 
-Download and install Miniconda:
+Install uv package manager using the official installer:
 
 ```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
-Reboot to activate or run: `conda activate`
+
+Add uv to your PATH by sourcing the shell configuration:
+
+```bash
+source ~/.cargo/env
+```
+
+Or restart your terminal session to ensure uv is available in your PATH.
 
 ## Step 4: Install Dependencies
 
@@ -66,10 +72,18 @@ git clone your_app
 cd your_app
 ```
 
-Install the required dependencies:
+Install the required dependencies using uv sync (this will automatically create a virtual environment and install dependencies):
 
 ```bash
-pip install -r requirements.txt
+uv sync
+```
+
+Alternatively, if you prefer to use requirements.txt:
+
+```bash
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
 ```
 
 ## Step 6: Create Streamlit Configuration Files
@@ -116,7 +130,7 @@ Description=Your App
 After=network.target
 
 [Service]
-ExecStart=/home/newuser/miniconda3/bin/streamlit run /home/newuser/your_app/main.py
+ExecStart=/home/newuser/.cargo/bin/uv run streamlit run /home/newuser/your_app/main.py
 WorkingDirectory=/home/newuser/your_app
 User=newuser
 Group=newuser
