@@ -55,6 +55,25 @@ source ~/.cargo/env
 
 Or restart your terminal session to ensure uv is available in your PATH.
 
+**Alternative installation methods:**
+
+If you prefer to install via pip:
+```bash
+pip install uv
+```
+
+Or using your system package manager:
+```bash
+# On Ubuntu/Debian
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On macOS with Homebrew
+brew install uv
+
+# On Windows with pip
+pip install uv
+```
+
 ## Step 4: Install Dependencies
 
 Install Nginx and Git:
@@ -124,13 +143,18 @@ sudo nano /etc/systemd/system/your_service.service
 
 Add the following configuration, replacing the paths and Python script name as needed:
 
+**Note:** To find the correct path to `uv`, run `which uv` in your terminal. Common paths are:
+- `/usr/local/bin/uv` (if installed via installer script)
+- `/home/newuser/.local/bin/uv` (if installed via pip with --user)
+- `/usr/bin/uv` (if installed via system package manager)
+
 ```ini
 [Unit]
 Description=Your App
 After=network.target
 
 [Service]
-ExecStart=/home/newuser/.cargo/bin/uv run streamlit run /home/newuser/your_app/main.py
+ExecStart=/home/newuser/.local/bin/uv run streamlit run /home/newuser/your_app/main.py
 WorkingDirectory=/home/newuser/your_app
 User=newuser
 Group=newuser
