@@ -223,11 +223,28 @@ server {
 server {
     listen 443 ssl;
     server_name your_linode_ip;
+
     ssl_certificate /home/newuser/your_app/certs/cert.pem;
     ssl_certificate_key /home/newuser/your_app/certs/key.pem;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+
     client_max_body_size 100M;
+
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+    add_header Referrer-Policy "strict-origin-when-cross-origin";
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval';";
 
     location / {
         proxy_pass http://ws-backend;
@@ -237,8 +254,11 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
+        proxy_read_timeout 86400;
+        proxy_send_timeout 86400;
     }
 }
+
 ```
 
 Link the configuration file, check the configuration, and reload Nginx:
